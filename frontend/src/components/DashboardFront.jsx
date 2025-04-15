@@ -1,0 +1,102 @@
+import React from 'react';
+import { Toaster, toast } from 'sonner'
+import { TiHome } from "react-icons/ti";
+
+import TotalSales from './dashboard/TotalSales'
+import LatestActivities from './dashboard/LatestActivities'
+import CreateReceiptButton from './dashboard/CreateReceiptButton'
+import CreateReceipt from './receipt/CreateReceipt'
+import Menu from './Menu'
+
+const DashboardFront = ({ setUser }) => {
+
+    const [loginInfo, setLoginInfo] = React.useState({ email: "", password: "" });
+    const [userData, setUserData] = React.useState()
+    const [showCreateReceipt, setShowCreateReceipt] = React.useState(false)
+
+    const baseUrl = "http://localhost:8000"
+
+    // On page load, fetch user data - When receipt is created, fetch updated data
+    React.useEffect(() => {
+        fetchUserData();
+    }, [showCreateReceipt]);
+
+
+    // Function for verifying user session
+    const fetchUserData = async () => {
+        // Make API call to backend to verify user session
+        const userData = await fetch(`${baseUrl}/api/user/getdata`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+        })
+        const dataResponse = await userData.json()
+
+        // Store user data in state if status is 200
+        if (userData.status === 200) {
+            setUserData(dataResponse[0])
+        } else {
+            setUserData(null)
+        }
+    };
+
+
+    // Function for logging in
+    const signIn = async () => {
+        console.log(loginInfo)
+
+        const signingIn = await fetch(`${baseUrl}/api/user/signin`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user_email: loginInfo.email,
+                user_password: loginInfo.password
+            }),
+            credentials: 'include',
+        })
+        const signinResponse = await signingIn.json()
+        console.log(signinResponse.user)
+
+        // Store user info in state if status is 200
+        if (signingIn.status === 200) {
+            console.log(signinResponse)
+            setUser(signinResponse.user)
+        } else {
+            setUser(null)
+            throw new Error()
+        }
+    }
+
+
+    return (
+        <>
+            {showCreateReceipt &&
+                <div className='z-10 absolute inset-0 max-h-full max-w-screen'>
+                    <CreateReceipt showCreateReceipt={showCreateReceipt} setShowCreateReceipt={setShowCreateReceipt} />
+                </div>
+            }
+            <div id='dashboard' className='flex flex-col justify-between flex-grow mx-7 mt-20'>
+                <Toaster />
+                <div id='title'>
+                    <h1 className='font-black text-3xl text-left'>
+                        Forside
+                    </h1>
+                </div>
+                <div className='flex flex-col justify-between flex-grow'>
+                    <div id='hero' className='max-w-[calc(100vw_-_3.5rem)] grid grid-rows-20 gap-4 pt-7'>
+                        <TotalSales salesData={userData} />
+                        <LatestActivities salesData={userData} />
+                    </div>
+                    <CreateReceiptButton setShowCreateReceipt={setShowCreateReceipt} />
+                </div>
+            </div>
+            <Menu />
+        </>
+    );
+};
+
+export default DashboardFront;
