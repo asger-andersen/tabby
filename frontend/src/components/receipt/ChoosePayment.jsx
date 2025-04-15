@@ -18,6 +18,7 @@ const ChoosePayment = ({ productInformation, setPaymentMethod, setActivePage }) 
                     id="paymentMethods"
                     className='border-black border px-5 py-3 rounded-lg text-sm font-light'
                     onChange={(e) => {
+                        console.log(e.target.value)
                         setPaymentMethod(e.target.value)
                     }}
                 >

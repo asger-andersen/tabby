@@ -11,7 +11,7 @@ import ChooseEmail from './ChooseEmail'
 const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt }) => {
 
     const [selectedItems, setSelectedItems] = React.useState([]);
-    const [paymentMethod, setPaymentMethod] = React.useState();
+    const [paymentMethod, setPaymentMethod] = React.useState(2);
     const [customerEmail, setCustomerEmail] = React.useState();
 
     const [productInformation, setProductInformation] = React.useState();
