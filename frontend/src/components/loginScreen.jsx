@@ -7,7 +7,7 @@ const LoginScreen = ({ setUser }) => {
 
     const [loginInfo, setLoginInfo] = React.useState({ email: "", password: "" });
 
-    const baseUrl = "http://localhost:8000"
+    const baseUrl = process.env.REACT_APP_BASE_URL
 
     // Function for logging in
     const signIn = async () => {
