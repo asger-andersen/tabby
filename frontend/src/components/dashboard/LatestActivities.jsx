@@ -1,6 +1,6 @@
 import React from 'react';
-import { Toaster, toast } from 'sonner'
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+
 
 const LatestActivities = ({ salesData }) => {
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toaster, toast } from 'sonner'
+import { toast } from 'sonner'
 import { RiMailSendLine } from "react-icons/ri";
 import ClipLoader from "react-spinners/ClipLoader";
 

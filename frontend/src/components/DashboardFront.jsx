@@ -1,6 +1,5 @@
 import React from 'react';
 import { Toaster, toast } from 'sonner'
-import { TiHome } from "react-icons/ti";
 
 import TotalSales from './dashboard/TotalSales'
 import LatestActivities from './dashboard/LatestActivities'
@@ -8,13 +7,12 @@ import CreateReceiptButton from './dashboard/CreateReceiptButton'
 import CreateReceipt from './receipt/CreateReceipt'
 import Menu from './Menu'
 
-const DashboardFront = ({ setUser }) => {
 
-    const [loginInfo, setLoginInfo] = React.useState({ email: "", password: "" });
+const DashboardFront = () => {
     const [userData, setUserData] = React.useState()
     const [showCreateReceipt, setShowCreateReceipt] = React.useState(false)
 
-    const baseUrl = "http://localhost:8000"
+    const baseUrl = process.env.REACT_APP_BASE_URL
 
     // On page load, fetch user data - When receipt is created, fetch updated data
     React.useEffect(() => {
@@ -41,36 +39,6 @@ const DashboardFront = ({ setUser }) => {
             setUserData(null)
         }
     };
-
-
-    // Function for logging in
-    const signIn = async () => {
-        console.log(loginInfo)
-
-        const signingIn = await fetch(`${baseUrl}/api/user/signin`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                user_email: loginInfo.email,
-                user_password: loginInfo.password
-            }),
-            credentials: 'include',
-        })
-        const signinResponse = await signingIn.json()
-        console.log(signinResponse.user)
-
-        // Store user info in state if status is 200
-        if (signingIn.status === 200) {
-            console.log(signinResponse)
-            setUser(signinResponse.user)
-        } else {
-            setUser(null)
-            throw new Error()
-        }
-    }
-
 
     return (
         <>

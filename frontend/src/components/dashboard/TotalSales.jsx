@@ -1,5 +1,4 @@
 import React from 'react';
-import { Toaster, toast } from 'sonner'
 import { GrMoney } from "react-icons/gr";
 
 const TotalSales = ({ salesData }) => {

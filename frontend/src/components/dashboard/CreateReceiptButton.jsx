@@ -1,5 +1,4 @@
 import React from 'react';
-import { IoIosAdd } from "react-icons/io";
 import { FaPlus } from "react-icons/fa6";
 
 const CreateReceiptButton = ({ setShowCreateReceipt }) => {

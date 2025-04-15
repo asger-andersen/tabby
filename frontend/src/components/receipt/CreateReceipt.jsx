@@ -1,5 +1,4 @@
 import React from 'react';
-import { Toaster, toast } from 'sonner'
 import { IoClose } from "react-icons/io5";
 import { IoChevronBack } from "react-icons/io5";
 import '../../index.css';
@@ -7,6 +6,7 @@ import '../../index.css';
 import ChooseItems from './ChooseItems'
 import ChoosePayment from './ChoosePayment'
 import ChooseEmail from './ChooseEmail'
+
 
 const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt }) => {
 
@@ -18,7 +18,7 @@ const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt }) => {
 
     const [activePage, setActivePage] = React.useState({ page: "choose_items", page_title: "Vælg varer" })
 
-    const baseUrl = "http://localhost:8000"
+    const baseUrl = process.env.REACT_APP_BASE_URL
 
     // On page load, fetch product information
     React.useEffect(() => {
@@ -44,7 +44,6 @@ const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt }) => {
             setProductInformation(null)
         }
     };
-
 
     return (
         <div className={`h-full max-w-full grid grid-rows-10 popup-animation ${showCreateReceipt ? 'popup-animation-open' : ''}`}>

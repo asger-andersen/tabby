@@ -1,5 +1,4 @@
 import React from 'react';
-import { Toaster, toast } from 'sonner'
 import { FaCheck } from "react-icons/fa6";
 
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Toaster, toast } from 'sonner'
 import { FiLogIn } from "react-icons/fi";
 
+
 const LoginScreen = ({ setUser }) => {
 
     const [loginInfo, setLoginInfo] = React.useState({ email: "", password: "" });
