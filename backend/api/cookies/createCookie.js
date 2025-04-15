@@ -1,11 +1,12 @@
 require('dotenv').config({
     path: `${__dirname}/.env`
-  });
+});
 const jwt = require('jsonwebtoken')
 
 
-
 // @desc    Create and return cookie
+// @func    Used in signIn
+//
 const generateCookie = async (data) => {
 
     // Destructure payload
@@ -19,8 +20,8 @@ const generateCookie = async (data) => {
         httpOnly: true,
         sameSite: 'None',
         secure: true, // Ensures the cookie is sent only over HTTPS
-        expiresIn: (1000*60*60*24),
-        maxAge: (1000*60*60*24)
+        expiresIn: (1000 * 60 * 60 * 24),
+        maxAge: (1000 * 60 * 60 * 24)
     };
 
     // Return cookie
@@ -34,6 +35,8 @@ const generateCookie = async (data) => {
 
 
 // @desc    Generate JWT
+// @func    Used in generateCookie
+//
 const generateToken = async (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: '30d'

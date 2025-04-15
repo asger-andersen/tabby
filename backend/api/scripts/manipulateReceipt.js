@@ -2,17 +2,17 @@ const puppeteer = require("puppeteer");
 const path = require("path");
 const fs = require("fs");
 const { toString } = require("qrcode");
-
+require('./receipt.css')
 
 
 // @desc    Generate PDF version of the receipt
+// @func    Used in generateReceipt
 //
-//
-const testFunction = async (receipt_data) => {
+const generatePDF = async (receipt_data) => {
 
     const receiptData = receipt_data[0]
 
-    // Restructure time
+    // Reformat date and time
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
 
     const createDate = new Date(receiptData.created_at)
@@ -22,7 +22,7 @@ const testFunction = async (receipt_data) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    // set the HTML of the page
+    // Set the HTML of the page
     await page.setContent(`
     <!doctype html>
     <html>
@@ -67,12 +67,12 @@ const testFunction = async (receipt_data) => {
                             <th class="text-right">Pris</th>
                         </tr>
                         ${receiptData.item_line.map(item => (
-                            `<tr>
+        `<tr>
                                 <td class="text-left">${item.product_amount}</td>
                                 <td class="text-left">${item.products.product_name}</td>
                                 <td class="text-right">${((item.products.product_price * item.product_amount) / 100).toFixed(2)} DKK</td>
                             </tr>`
-                        )).join('')}                    
+    )).join('')}                    
                     </table>
                 </div>
                 <div class="dashedSpaceDouble m-0"></div>
@@ -133,7 +133,7 @@ const testFunction = async (receipt_data) => {
     // Store the PDF in a buffer
     const pdfBuffer = await page.pdf({
         width: "150mm",
-        height: `${323+(7*receiptData.item_line.length)}mm`, // Dynamic height based on amount of item lines on receipt
+        height: `${323 + (7 * receiptData.item_line.length)}mm`, // Dynamic height based on amount of item lines on receipt
         printBackground: true
     });
 
@@ -145,7 +145,7 @@ const testFunction = async (receipt_data) => {
 
 
 // @desc    Generate QR code
-//
+// @func    Used in generatePDF
 //
 const generateQRCode = async (url) => {
     const svgString = await toString(`${url}`, { type: 'svg' });
@@ -158,5 +158,5 @@ const generateQRCode = async (url) => {
 
 
 module.exports = {
-    testFunction
+    generatePDF
 };

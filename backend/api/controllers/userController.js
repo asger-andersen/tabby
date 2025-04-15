@@ -1,7 +1,6 @@
 require('dotenv').config({
     path: `${__dirname}/.env`
 })
-const fetch = require("node-fetch");
 const asyncHandler = require('express-async-handler')
 const supabase = require('../../db-config');
 const bcrypt = require('bcrypt')
@@ -23,10 +22,10 @@ const createUser = asyncHandler(async (req, res) => {
         return
     }
 
-    // Generate the hashed password
+    // Hash the password
     const hashedpassword = await hashPassword(user_password);
 
-    //Create user profile in the database
+    //Insert user into database
     const { data, error } = await supabase
         .from('user')
         .insert({
@@ -66,18 +65,11 @@ const signIn = asyncHandler(async (req, res) => {
         .select()
         .eq("user_email", user_email);
 
-    console.log(data)
-
     if (data.length < 1) {
         res.status(401).json({ message: "Credentials do not match!" });
         return
     }
-
     const userData = data[0]
-
-    // Restructure user data
-    console.log(userData)
-    //const { password_hash, created_at, ...resturcturedUserInfo } = userData;
 
     // Compare passwords
     const correctPassword = await comparePassword(user_password, userData.password_hash);
@@ -87,7 +79,7 @@ const signIn = asyncHandler(async (req, res) => {
     } else if (!correctPassword) {
         res.status(401).json({ message: "Credentials do not match!" });
     } else {
-        // Return response in cookie
+        // Return cookie with signed JWT
         generateCookie({ userid: userData.user_id, json: { user: userData }, res: res, status: 200 })
     }
 })
@@ -115,52 +107,13 @@ const verifySession = asyncHandler(async (req, res) => {
 
 
 
-// @desc    Hash the given password
-//
-//
-const hashPassword = async (password) => {
-    try {
-
-        // Generate salt
-        const salt = await bcrypt.genSalt(10);
-
-        // Hash the password
-        const hash = await bcrypt.hash(password, salt);
-
-        return hash;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-};
-
-// @desc    Check if the given password match the one in the db
-//
-//
-const comparePassword = async (insertedPassword, hash) => {
-    try {
-
-        // Compare passwords
-        const result = await bcrypt.compare(insertedPassword, hash)
-
-        return result
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
-
-
-
 // @desc    Get all data associated with user
 // @route   GET /api/user/getdata
 // @access  Private
 const getUserData = asyncHandler(async (req, res) => {
 
-    // Save user in variable
+    // Store user in variable
     const userInfo = req.user[0]
-
-    console.log(userInfo);
 
     // Fetch user data from database
     const { data, error } = await supabase
@@ -190,6 +143,45 @@ const getUserData = asyncHandler(async (req, res) => {
         res.status(200).json(data);
     }
 })
+
+
+
+// @desc    Hash the given password
+// @func    Used in createUser
+//
+const hashPassword = async (password) => {
+    try {
+
+        // Generate salt
+        const salt = await bcrypt.genSalt(10);
+
+        // Hash the password
+        const hash = await bcrypt.hash(password, salt);
+
+        return hash;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+
+
+// @desc    Check if the given password match the one in the db
+// @func    Used in signIn
+//
+const comparePassword = async (insertedPassword, hash) => {
+    try {
+
+        // Compare passwords
+        const result = await bcrypt.compare(insertedPassword, hash)
+
+        return result
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
 
 
 

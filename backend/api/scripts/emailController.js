@@ -1,37 +1,41 @@
+require('dotenv').config({
+    path: `${__dirname}/.env`
+})
 const nodemailer = require("nodemailer");
 
+
 // @desc    Create and send email
-//
+// @func    Used in generateReceipt
 //
 const sendEmail = async (data) => {
-
     try {
-        
+
+        // Destructure passed data
         const { emailTo, contactInfo, PDFbuffer } = data;
 
-        // Configure
+        // Configure nodemailer transporter
         const transporter = nodemailer.createTransport({
             host: "send.one.com",
             port: 465,
             secure: true, // true for port 465, false for other ports
             auth: {
-            user: "kvittering@jhsnedker.dk",
-            pass: "De@Y9JT_9cQ3x#b",
+                user: process.env.NODEMAILER_USER,
+                pass: process.env.NODEMAILER_PASSWORD,
             },
         });
 
-        // Define mail content
+        // Email content
         const mailContent = {
-            from: `"${contactInfo.company.company_name}" <kvittering@jhsnedker.dk>`, // Sender address
-            to: `${emailTo}`, // list of receivers
-            subject: "Tak for dit køb!", // Subject line
+            from: `"${contactInfo.company.company_name}" <kvittering@jhsnedker.dk>`,
+            to: `${emailTo}`,
+            subject: "Tak for dit køb!",
             text:
-            `Hej, 
+                `Hej, 
         
             Det er ${contactInfo.firstname} fra ${contactInfo.company.company_name} :-)
         
             Jeg vil bare sige mange tak for dit køb! 
-            Forhåbentligt kan produkterne bruges.
+            Varerne finder forhåbentligt plads i deres nye hjem, og jeg håber i bliver glade for dem.
         
             Jeg har vedhæftet din kvittering i denne mail. 
             Tøv ikke med at kontakte mig, hvis du skulle have nogle spørgsmål.
@@ -43,9 +47,9 @@ const sendEmail = async (data) => {
             --- 
             Tlf. ${contactInfo.company.company_phone} 
             E-mail ${contactInfo.company.company_email}`
-            .split("\n") // Split into an array of lines
-            .map(line => line.trim()) // Trim each line separately
-            .join("\n"), // Rejoin into a single string, // Plain text body
+                    .split("\n") // Split into an array of lines
+                    .map(line => line.trim()) // Trim each line separately
+                    .join("\n"), // Rejoin into a single string
             attachments: [
                 {
                     filename: "kvittering.pdf",
@@ -70,33 +74,3 @@ const sendEmail = async (data) => {
 module.exports = {
     sendEmail
 }
-
-
-
-
-
-
-/*
-    `
-    Hej, 
-
-    Det er ${contactInfo.firstname} fra ${contactInfo.company.company_name} :-)
-
-    Jeg vil bare sige mange tak for dit køb! 
-    Forhåbentligt kan produkterne bruges.
-
-    Jeg har vedhæftet din kvittering i denne mail. 
-    Tøv ikke med at kontakte mig, hvis du skulle have nogle spørgsmål.
-
-    Rigtig god dag. 
-    Med venlig hilsen 
-    ${contactInfo.firstname + " " + contactInfo.lastname} 
-    --- 
-    Tlf. ${contactInfo.company.company_phone} 
-    E-mail ${contactInfo.company.company_email}
-    `, // Plain text body
-*/
-
-/*
-    text: `Hej, \nDet er ${contactInfo.firstname} fra ${contactInfo.company.company_name} :-) \n\nJeg vil bare sige mange tak for dit køb! \nForhåbentligt kan produkterne bruges. \n\nJeg har vedhæftet din kvittering i denne mail. \nTøv ikke med at kontakte mig, hvis du skulle have nogle spørgsmål. \n\nRigtig god dag. \nMed venlig hilsen \n${contactInfo.firstname + " " + contactInfo.lastname} \n--- \nTlf. ${contactInfo.company.company_phone} \nE-mail ${contactInfo.company.company_email}`, // Plain text body
-*/
