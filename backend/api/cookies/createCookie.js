@@ -18,11 +18,11 @@ const generateCookie = async (data) => {
     // Define cookie options
     const options = {
         httpOnly: true,
-        sameSite: 'None',
-        secure: true, // Ensures the cookie is sent only over HTTPS
-        expiresIn: (1000 * 60 * 60 * 24),
-        maxAge: (1000 * 60 * 60 * 24)
+        sameSite: 'None', // For cross-origin
+        secure: true,     // Only over HTTPS
+        maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
     };
+
 
     // Return cookie
     res.status(status)
