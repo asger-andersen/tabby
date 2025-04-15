@@ -35,7 +35,7 @@ const sendEmail = async (data) => {
             Det er ${contactInfo.firstname} fra ${contactInfo.company.company_name} :-)
         
             Jeg vil bare sige mange tak for dit køb! 
-            Varerne finder forhåbentligt plads i deres nye hjem, og jeg håber i bliver glade for dem.
+            Varerne finder forhåbentligt plads i deres nye hjem, og jeg håber I bliver glade for dem.
         
             Jeg har vedhæftet din kvittering i denne mail. 
             Tøv ikke med at kontakte mig, hvis du skulle have nogle spørgsmål.

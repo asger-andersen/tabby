@@ -2,7 +2,6 @@ const puppeteer = require("puppeteer");
 const path = require("path");
 const fs = require("fs");
 const { toString } = require("qrcode");
-require('./receipt.css')
 
 
 // @desc    Generate PDF version of the receipt
@@ -41,7 +40,7 @@ const generatePDF = async (receipt_data) => {
                 </div>
                 <div class="dashedSpace"></div>
                 <div id="formals" class="flex-col justify-between font-45">
-                    <div class="flex flex-row justify-between">
+                    <div class="flex flex-row justify-between mt-2">
                         <p>
                             Betjent af:
                         </p>
@@ -77,19 +76,29 @@ const generatePDF = async (receipt_data) => {
                 </div>
                 <div class="dashedSpaceDouble m-0"></div>
                 <div class="dashedSpaceDouble m-0"></div>
-                <div class="my-6 flex flex-row justify-between">
-                    <p class="font-bold">
-                        I alt:
-                    </p>
-                    <p>
-                        ${((receiptData.item_line.reduce((sum, item) => sum + item.products.product_price * item.product_amount, 0)) / 100).toFixed(2)} DKK
-                    </p>
+                <div class="my-6">
+                    <div class="flex flex-row justify-between">
+                        <p class="font-bold">
+                            I alt:
+                        </p>
+                        <p>
+                            ${((receiptData.item_line.reduce((sum, item) => sum + item.products.product_price * item.product_amount, 0)) / 100).toFixed(2)} DKK
+                        </p>
+                    </div>
+                    <div class="flex flex-row justify-between">
+                        <p>
+                            Heraf moms (${receiptData.user.company.vat_registration ? "25%" : "0%"}):
+                        </p>
+                        <p>
+                            ${((receiptData.item_line.reduce((sum, item) => sum + item.products.product_price * item.product_amount, 0)) / 100).toFixed(2) * (receiptData.user.company.vat_registration ? 0.2 : 0)} DKK
+                        </p>
+                    </div>
                 </div>
                 <div class="dashedSpaceDouble m-0"></div>
                 <div class="dashedSpaceDouble m-0"></div>
                 <div class="my-6 flex flex-row justify-between">
                     <p>
-                        Betalingsmiddel:
+                        Betalingsmetode:
                     </p>
                     <p>
                         ${receiptData.payment_methods.payment_method_name}
@@ -97,10 +106,10 @@ const generatePDF = async (receipt_data) => {
                 </div>
                 <div class="dashedSpace"></div>
                 <div class="my-6">
-                    <p class="text-center">
+                    <p class="text-center text-xl">
                         Jeg håber du bliver glad for dit køb!
                     </p>
-                    <p class="mt-6 mb- text-5xl text-center alex-brush-regular">
+                    <p class="mt-4 text-5xl text-center alex-brush-regular">
                         ${receiptData.user.firstname}
                     </p>
                     <hr class="border-1 border-black">
@@ -115,6 +124,12 @@ const generatePDF = async (receipt_data) => {
                     <a href="mailto:${receiptData.user.company.company_email}">
                         E-mail: ${receiptData.user.company.company_email}
                     </a>
+                    ${receiptData.user.company.company_cvr ?
+            `<p>
+                            CVR: ${receiptData.user.company.company_cvr}
+                        </p>`
+            : ""
+        }
                 </div>
                 <div class="mb-6 flex flex-col justify-center items-center text-center">
                     <a href="${receiptData.user.company.company_webpage}" class="flex justify-center">
@@ -133,7 +148,7 @@ const generatePDF = async (receipt_data) => {
     // Store the PDF in a buffer
     const pdfBuffer = await page.pdf({
         width: "150mm",
-        height: `${323 + (7 * receiptData.item_line.length)}mm`, // Dynamic height based on amount of item lines on receipt
+        height: `${332 + (7 * receiptData.item_line.length) + (receiptData.user.company.company_cvr ? 7 : 0)}mm`, // Dynamic height based on amount of item lines on receipt
         printBackground: true
     });
 

@@ -83,8 +83,6 @@ const createReceipt = async (receipt_info) => {
         "receipt_id": receipt_id
     }))
 
-    console.log(restructured_product_info)
-
 
     // Create item lines for receipt
     const { error } = await supabase
@@ -115,6 +113,7 @@ const fetchReceiptData = async (receipt_id) => {
     if (error) {
         throw new Error(error.message);
     } else {
+        console.log(data)
         return data
     }
 
