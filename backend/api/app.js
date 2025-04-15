@@ -9,7 +9,7 @@ const PORT = 8000;
 const app = express();
 app.use(express.json());
 
-const allowedOrigins = ['http://localhost:3000', 'http://192.168.1.7:3000'];
+const allowedOrigins = ['https://tabbyapp.vercel.app/'];
 
 app.use(cors({
   origin: allowedOrigins,
@@ -22,6 +22,6 @@ app.use('/api/user', require('./routes/userRoute'))
 app.use('/api/product', require('./routes/productRoute'))
 
 //For development:
-app.listen(PORT, () => console.log("Server Listening on PORT:", PORT));
+//app.listen(PORT, () => console.log("Server Listening on PORT:", PORT));
 
 module.exports = app;
