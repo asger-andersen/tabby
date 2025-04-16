@@ -17,7 +17,7 @@ app.post("/api/generate-receipt", async (req, res) => {
             headless: chrome.headless,
             ignoreHTTPSErrors: true
         };
-    }; z
+    };
 
     console.log("Request body:")
     console.log(req.body)
