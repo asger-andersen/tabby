@@ -4,7 +4,7 @@ require('dotenv').config({
 const asyncHandler = require('express-async-handler')
 const supabase = require('../../db-config');
 const bcrypt = require('bcrypt')
-const { generateCookie } = require('../cookies/createCookie')
+const { generateTokenResponse } = require('../cookies/createToken')
 
 
 
@@ -79,8 +79,8 @@ const signIn = asyncHandler(async (req, res) => {
     } else if (!correctPassword) {
         res.status(401).json({ message: "Credentials do not match!" });
     } else {
-        // Return cookie with signed JWT
-        generateCookie({ userid: userData.user_id, json: { user: userData }, res: res, status: 200 })
+        // Return response with signed JWT
+        generateTokenResponse({ userid: userData.user_id, json: { user: userData }, res: res, status: 200 })
     }
 })
 

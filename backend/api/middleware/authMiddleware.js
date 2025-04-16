@@ -6,52 +6,35 @@ const asyncHandler = require('express-async-handler');
 const supabase = require('../../db-config');
 
 const protect = asyncHandler(async (req, res, next) => {
-    // Create variable
-    let token
 
-    if (req.headers.cookie) {
-        try {
-            // Split cookies into an array
-            const cookies = req.headers.cookie.split(';')
+    const authHeader = req.headers.authorization;
 
-            // Iterate through the cookies in the array
-            for (let cookie of cookies) {
-
-                // Remove potential whitespace from cookie
-                cookie = cookie.trim()
-
-                if (cookie.startsWith('jwt')) {
-                    token = cookie.split('=')[1]
-
-                    //Verify token
-                    const decoded = jwt.verify(token, process.env.JWT_SECRET)
-
-                    //Get user from the token
-                    const { data, error } = await supabase
-                        .from('user')
-                        .select()
-                        .eq("user_id", decoded.id)
-
-                    if (error) {
-                        throw new Error(error.message);
-                    } else {
-                        req.user = data
-                    }
-                }
-            }
-
-            next()
-        } catch (error) {
-            console.log(error)
-            res.status(401)
-            throw new Error('Not authorized')
-        }
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'Not authorized, no token' });
     }
 
-    // If token is not present, the user is unauthorized
-    if (!token) {
-        res.status(401)
-        throw new Error('Not authorized, no token')
+    const token = authHeader.split(' ')[1];
+
+    try {
+        // Verify token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        //Get user from the token
+        const { data, error } = await supabase
+            .from('user')
+            .select()
+            .eq("user_id", decoded.id)
+
+        if (error) {
+            throw new Error(error.message);
+        } else {
+            req.user = data
+        }
+
+        next();
+    } catch (error) {
+        res.status(401).json({ message: 'Authorization failed' })
+        throw new Error('Not authorized')
     }
 })
 

@@ -12,8 +12,6 @@ const DashboardFront = () => {
     const [userData, setUserData] = React.useState()
     const [showCreateReceipt, setShowCreateReceipt] = React.useState(false)
 
-    const baseUrl = process.env.REACT_APP_BASE_URL
-
     // On page load, fetch user data - When receipt is created, fetch updated data
     React.useEffect(() => {
         fetchUserData();
@@ -22,13 +20,16 @@ const DashboardFront = () => {
 
     // Function for verifying user session
     const fetchUserData = async () => {
+        const baseUrl = process.env.REACT_APP_BASE_URL
+        const token = localStorage.getItem('jwt');
+
         // Make API call to backend to verify user session
         const userData = await fetch(`${baseUrl}/api/user/getdata`, {
             method: 'GET',
             headers: {
+                Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json',
-            },
-            credentials: 'include',
+            }
         })
         const dataResponse = await userData.json()
 

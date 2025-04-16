@@ -11,8 +11,6 @@ const LoginScreen = ({ setUser }) => {
 
     // Function for logging in
     const signIn = async () => {
-        console.log(loginInfo)
-
         const signingIn = await fetch(`${baseUrl}/api/user/signin`, {
             method: 'POST',
             headers: {
@@ -21,11 +19,10 @@ const LoginScreen = ({ setUser }) => {
             body: JSON.stringify({
                 user_email: loginInfo.email,
                 user_password: loginInfo.password
-            }),
-            credentials: 'include',
+            })
         })
         const signinResponse = await signingIn.json()
-        console.log(signinResponse.user)
+        localStorage.setItem('jwt', signinResponse.token);
 
         // Store user info in state if status is 200
         if (signingIn.status === 200) {

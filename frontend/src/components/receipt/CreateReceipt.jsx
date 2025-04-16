@@ -18,8 +18,6 @@ const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt }) => {
 
     const [activePage, setActivePage] = React.useState({ page: "choose_items", page_title: "Vælg varer" })
 
-    const baseUrl = process.env.REACT_APP_BASE_URL
-
     // On page load, fetch product information
     React.useEffect(() => {
         fetchProductInformation();
@@ -27,13 +25,16 @@ const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt }) => {
 
     // Fetch all product information that's passed into the UI
     const fetchProductInformation = async () => {
+        const baseUrl = process.env.REACT_APP_BASE_URL
+        const token = localStorage.getItem('jwt');
+
         // Make API call
         const productInformation = await fetch(`${baseUrl}/api/product/getinformation`, {
             method: 'GET',
             headers: {
+                Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json',
-            },
-            credentials: 'include',
+            }
         })
         const response = await productInformation.json()
 

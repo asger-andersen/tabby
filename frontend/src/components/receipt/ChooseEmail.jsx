@@ -8,20 +8,16 @@ const ChooseEmail = ({ customerEmail, setCustomerEmail, selectedItems, paymentMe
 
     const [loading, setLoading] = React.useState(false)
 
-    const baseURL = process.env.REACT_APP_BASE_URL
-
     // Function for creating receipt
     const createReceipt = async () => {
-        console.log({
-            customer_mail: customerEmail,
-            payment_method_id: paymentMethod,
-            product_info: selectedItems
-        })
+        const baseURL = process.env.REACT_APP_BASE_URL
+        const token = localStorage.getItem('jwt');
 
         // Make API call
         const receipt = await fetch(`${baseURL}/api/receipt/generate`, {
             method: 'POST',
             headers: {
+                Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
@@ -31,8 +27,7 @@ const ChooseEmail = ({ customerEmail, setCustomerEmail, selectedItems, paymentMe
                     product_id: item.product_id,
                     product_amount: item.product_amount
                 }))
-            }),
-            credentials: 'include',
+            })
         })
 
         // Check if the receipt was generated, and provide feedback accordingly
