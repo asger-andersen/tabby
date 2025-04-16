@@ -19,8 +19,8 @@ app.post("/api/generate-receipt", async (req, res) => {
         };
     };
 
-    console.log("Request body:")
-    console.log(req.body)
+    console.log("Request:")
+    console.log(req)
 
     const receiptData = req.body
     console.log("Receipt data:")
