@@ -3,6 +3,8 @@ chrome = require("chrome-aws-lambda");
 puppeteer = require("puppeteer-core");
 const { toString } = require("qrcode");
 
+app.use(express.json());
+
 
 // @desc    Generate PDF version of the receipt
 // @route   POST /api/generate-receipt
