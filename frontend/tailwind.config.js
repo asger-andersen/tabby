@@ -15,7 +15,7 @@ module.exports = {
         'e-lg': '0 4px 20px -3px rgb(0 0 0 / 0.1), 0 1px 6px -4px rgb(0 0 0 / 0.1)'
       },
       fontSize: {
-        'xxs': '0.75rem (12px), calc(1 / 0.75)',
+        'xxs': '0.70rem, calc(1 / 0.70)',
         's': '0.80rem'
       }
     },
