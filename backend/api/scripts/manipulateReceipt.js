@@ -6,7 +6,7 @@ const getLaunchOptions = async () => {
     return {
         args: chrome.args,
         defaultViewport: chrome.defaultViewport,
-        executablePath: await chrome.executablePath || '/usr/bin/chromium-browser',
+        executablePath: await chrome.executablePath,
         headless: chrome.headless,
         ignoreHTTPSErrors: true
     };
@@ -155,7 +155,7 @@ const generatePDF = async (receipt_data) => {
                 </div>
             </body>
         </html>
-        `, { waitUntil: 'networkidle0' });
+        `, { waitUntil: 'domcontentloaded', timeout: 20 * 1000 });
 
         console.log(await page.content())
 
