@@ -1,8 +1,9 @@
-const app = require("express")();
+const express = require('express');
 chrome = require("chrome-aws-lambda");
 puppeteer = require("puppeteer-core");
 const { toString } = require("qrcode");
 
+const app = express();
 app.use(express.json());
 
 
