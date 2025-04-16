@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "engines": {
-    "node": "16.x"
+    "node": "18.x"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
