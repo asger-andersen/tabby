@@ -155,7 +155,9 @@ const generatePDF = async (receipt_data) => {
                 </div>
             </body>
         </html>
-        `, { waitUntil: "load" });
+        `, { waitUntil: 'networkidle0' });
+
+        console.log(await page.content())
 
         // Store the PDF in a buffer
         const pdfBuffer = await page.pdf({
