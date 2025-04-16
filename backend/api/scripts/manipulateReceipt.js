@@ -1,14 +1,16 @@
 const { toString } = require("qrcode");
+const chrome = require("chrome-aws-lambda");
+const puppeteer = require("puppeteer-core");
 
-let chrome = {};
-let puppeteer;
-
-if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-    chrome = require("chrome-aws-lambda");
-    puppeteer = require("puppeteer-core");
-} else {
-    puppeteer = require("puppeteer");
-}
+const getLaunchOptions = async () => {
+    return {
+        args: chrome.args,
+        defaultViewport: chrome.defaultViewport,
+        executablePath: await chrome.executablePath || '/usr/bin/chromium-browser',
+        headless: chrome.headless,
+        ignoreHTTPSErrors: true
+    };
+};
 
 
 // @desc    Generate PDF version of the receipt
@@ -24,21 +26,9 @@ const generatePDF = async (receipt_data) => {
     const createDate = new Date(receiptData.created_at)
     const formattedDate = createDate.toLocaleString("en-GB", dateTimeOptions);
 
-    // Configure options for chrome
-    let options = {};
-
-    // If in production (running on Vercel serverless) we use chrome-aws-lambda since the chrome version provided by puppeteer is too heavy
-    if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-        options = {
-            args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
-            defaultViewport: chrome.defaultViewport,
-            executablePath: await chrome.executablePath,
-            headless: true,
-            ignoreHTTPSErrors: true,
-        };
-    }
-
     try {
+        const options = await getLaunchOptions();
+
         // Launch the browser and open a new blank page
         const browser = await puppeteer.launch(options);
         const page = await browser.newPage();
