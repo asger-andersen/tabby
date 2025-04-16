@@ -17,9 +17,14 @@ app.post("/api/generate-receipt", async (req, res) => {
             headless: chrome.headless,
             ignoreHTTPSErrors: true
         };
-    };
+    }; z
+
+    console.log("Request body:")
+    console.log(req.body)
 
     const receiptData = req.body
+    console.log("Receipt data:")
+    console.log(receiptData)
 
     // Reformat date and time
     const dateTimeOptions = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
