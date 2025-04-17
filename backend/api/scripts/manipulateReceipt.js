@@ -173,7 +173,7 @@ const generatePDF = async (receipt_data) => {
                 </div>
             </body>
         </html>
-        `, { waitUntil: 'domcontentloaded', timeout: 20 * 1000 });
+        `, { waitUntil: 'load', timeout: 20 * 1000 });
 
         // Store the PDF in a buffer
         const pdfBuffer = await page.pdf({
