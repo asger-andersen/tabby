@@ -28,6 +28,6 @@ app.use('/api/user', require('./routes/userRoute'))
 app.use('/api/product', require('./routes/productRoute'))
 
 //For development:
-//app.listen(PORT, () => console.log("Server Listening on PORT:", PORT));
+app.listen(PORT, () => console.log("Server Listening on PORT:", PORT));
 
 module.exports = app;
