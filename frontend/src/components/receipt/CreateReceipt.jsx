@@ -14,7 +14,7 @@ const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt }) => {
     const [paymentMethod, setPaymentMethod] = React.useState(2);
     const [customerEmail, setCustomerEmail] = React.useState();
 
-    const [productInformation, setProductInformation] = React.useState();
+    const [productInformation, setProductInformation] = React.useState(null);
 
     const [activePage, setActivePage] = React.useState({ page: "choose_items", page_title: "Vælg varer" })
 

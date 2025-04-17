@@ -9,7 +9,7 @@ import Menu from './Menu'
 
 
 const DashboardFront = () => {
-    const [userData, setUserData] = React.useState()
+    const [userData, setUserData] = React.useState(null)
     const [showCreateReceipt, setShowCreateReceipt] = React.useState(false)
 
     // On page load, fetch user data - When receipt is created, fetch updated data

@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaCheck } from "react-icons/fa6";
+import Skeleton from '../skeleton/Skeleton'
 
 
 const ChooseItems = ({ productInformation, selectedItems, setSelectedItems, setActivePage }) => {
@@ -49,68 +50,74 @@ const ChooseItems = ({ productInformation, selectedItems, setSelectedItems, setA
                 />
                 <div className="max-w-[calc(100vw_-_5rem)]">
                     <ul className='overflow-x-auto hide-scrollbar flex flex-row gap-1'>
-                        {productInformation?.categories.map((category) => (
-                            <>
-                                <li
-                                    key={category.category_id}
-                                    className={`p-1 px-3 font-light text-[0.65rem] border border rounded-md ${selectedCategory === category.category_id ? "bg-black/10" : ""}`}
-                                    onClick={() => {
-                                        if (selectedCategory === category.category_id) {
-                                            setSelectedCategory(null)
-                                        } else {
-                                            setSearchString(null);
-                                            setSelectedCategory(category.category_id);
-                                        }
-                                    }}>
-                                    {category.category_name}
-                                </li>
-                            </>
-                        ))}
+                        {productInformation ?
+                            (productInformation?.categories.map((category) => (
+                                <>
+                                    <li
+                                        key={category.category_id}
+                                        className={`p-1 px-3 font-light text-[0.65rem] border border rounded-md ${selectedCategory === category.category_id ? "bg-black/10" : ""}`}
+                                        onClick={() => {
+                                            if (selectedCategory === category.category_id) {
+                                                setSelectedCategory(null)
+                                            } else {
+                                                setSearchString(null);
+                                                setSelectedCategory(category.category_id);
+                                            }
+                                        }}>
+                                        {category.category_name}
+                                    </li>
+                                </>
+                            )))
+                            : <Skeleton width={"75px"} height={"25px"} radius={"0.5rem"} count={7} direction={"row"} gap={1} />
+                        }
                     </ul>
                 </div>
                 <hr />
             </div>
             <div className='py-2'>
                 <ul className='overflow-y-auto hide-scrollbar flex flex-col gap-1 max-w-[calc(100vw_-_5rem)] h-[28vh]'>
-                    {filteredProducts()?.map((product) => (
-                        <>
-                            <li
-                                key={product.product_id}
-                                className={`py-3 px-4 text-xs border border rounded-lg flex flex-row justify-between gap-3 items-center ${selectedItems.some((item) => item.product_id === product.product_id) ? 'bg-black/10' : ''}`}
-                                onClick={() => {
-                                    toggleItem(product)
-                                }}>
-                                <p className='font-medium truncate'>
-                                    {product.product_name}
-                                </p>
-                                <div className='flex flex-row gap-5 items-center'>
-                                    <p className='font-normal whitespace-nowrap'>
-                                        {(product.product_price / 100).toFixed(2).replace(".", ",")} {product.currency}
+                    {productInformation ?
+                        (filteredProducts()?.map((product) => (
+                            <>
+                                <li
+                                    key={product.product_id}
+                                    className={`py-3 px-4 text-xs border border rounded-lg flex flex-row justify-between gap-3 items-center ${selectedItems.some((item) => item.product_id === product.product_id) ? 'bg-black/10' : ''}`}
+                                    onClick={() => {
+                                        toggleItem(product)
+                                    }}>
+                                    <p className='font-medium truncate'>
+                                        {product.product_name}
                                     </p>
-                                    {
-                                        selectedItems.some((item) => item.product_id === product.product_id) &&
-                                        <input
-                                            type="number"
-                                            value={selectedItems.find((item) => item.product_id === product.product_id).product_amount}
-                                            className='p-0.1 px-2 w-[2rem] font-light text-[0.5rem] border border rounded-md'
-                                            placeholder='Stk.'
-                                            onClick={(e) => e.stopPropagation()}
-                                            onChange={(e) => {
-                                                const value = parseInt(e.target.value);
-                                                setSelectedItems((prev) =>
-                                                    prev.map((i) =>
-                                                        i.product_id === product.product_id
-                                                            ? { ...i, product_amount: value }
-                                                            : i
-                                                    )
-                                                );
-                                            }}
-                                        />
-                                    }
-                                </div>
-                            </li>
-                        </>
-                    ))}
+                                    <div className='flex flex-row gap-5 items-center'>
+                                        <p className='font-normal whitespace-nowrap'>
+                                            {(product.product_price / 100).toFixed(2).replace(".", ",")} {product.currency}
+                                        </p>
+                                        {
+                                            selectedItems.some((item) => item.product_id === product.product_id) &&
+                                            <input
+                                                type="number"
+                                                value={selectedItems.find((item) => item.product_id === product.product_id).product_amount}
+                                                className='p-0.1 px-2 w-[2rem] font-light text-[0.5rem] border border rounded-md'
+                                                placeholder='Stk.'
+                                                onClick={(e) => e.stopPropagation()}
+                                                onChange={(e) => {
+                                                    const value = parseInt(e.target.value);
+                                                    setSelectedItems((prev) =>
+                                                        prev.map((i) =>
+                                                            i.product_id === product.product_id
+                                                                ? { ...i, product_amount: value }
+                                                                : i
+                                                        )
+                                                    );
+                                                }}
+                                            />
+                                        }
+                                    </div>
+                                </li>
+                            </>
+                        )))
+                        : <Skeleton width={"100%"} height={"42px"} radius={"0.5rem"} count={6} direction={"col"} gap={1} />
+                    }
                 </ul>
             </div>
             <div className='flex flex-col gap-1'>

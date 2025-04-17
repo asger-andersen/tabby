@@ -1,5 +1,6 @@
 import React from 'react';
 import { GrMoney } from "react-icons/gr";
+import Skeleton from '../skeleton/Skeleton'
 
 const TotalSales = ({ salesData }) => {
 
@@ -53,9 +54,13 @@ const TotalSales = ({ salesData }) => {
                     </p>
                     <div className='flex justify-row items-center font-semibold text-base gap-2'>
                         <GrMoney />
-                        <p>
-                            {lastWeekSales()} DKK
-                        </p>
+                        {salesData ?
+                            <p>
+                                {lastWeekSales()} DKK
+                            </p>
+                            : <Skeleton width={110} height={24} radius={`0.5rem`} count={1} />
+
+                        }
                     </div>
                 </div>
                 <div className='flex flex-col text-left'>
@@ -64,9 +69,13 @@ const TotalSales = ({ salesData }) => {
                     </p>
                     <div className='flex justify-row items-center font-semibold text-base gap-2'>
                         <GrMoney />
-                        <p>
-                            {totalSales} DKK
-                        </p>
+                        {salesData ?
+                            <p>
+                                {totalSales} DKK
+                            </p>
+                            : <Skeleton width={110} height={24} radius={`0.5rem`} count={1} />
+
+                        }
                     </div>
                 </div>
             </div>

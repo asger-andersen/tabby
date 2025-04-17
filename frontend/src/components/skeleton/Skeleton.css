@@ -1,0 +1,23 @@
+.skeleton {
+    display: inline-block;
+    background-color: #1E1E1E;
+    opacity: 100;
+
+    animation: placeholderShimer 2.5s ease-in-out infinite;
+}
+
+
+/* Skeleton Animation */
+@keyframes placeholderShimer {
+    0% {
+        opacity: 0.15;
+    }
+
+    50% {
+        opacity: 0.03;
+    }
+
+    100% {
+        opacity: 0.15;
+    }
+}
