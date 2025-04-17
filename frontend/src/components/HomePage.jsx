@@ -1,10 +1,12 @@
 import React from 'react';
 import LoginScreen from './loginScreen'
 import DashboardFront from './DashboardFront'
+import LoadingScreen from './loadingScreen'
 
 
-const HomePage = ({ givenData }) => {
+const HomePage = () => {
     const [user, setUser] = React.useState(null);
+    const [searchingForUser, setSearchingForUser] = React.useState(true)
 
     // On page load, check if user is logged in
     React.useEffect(() => {
@@ -28,10 +30,11 @@ const HomePage = ({ givenData }) => {
 
         // Store user info in state if status is 200
         if (verifySession.status === 200) {
-            console.log(sessionResponse)
             setUser(sessionResponse)
+            setSearchingForUser(false)
         } else {
             setUser(null)
+            setSearchingForUser(false)
         }
     };
 
@@ -39,9 +42,13 @@ const HomePage = ({ givenData }) => {
     return (
         <section className='w-full max-w-screen h-screen flex flex-col justify-between'>
             {
-                user ?
+                searchingForUser ? (
+                    <LoadingScreen searchingForUser={searchingForUser} />
+                ) : user && !searchingForUser ? (
                     <DashboardFront />
-                    : <LoginScreen setUser={setUser} />
+                ) : (
+                    <LoginScreen setUser={setUser} />
+                )
             }
         </section>
     );
