@@ -1,15 +1,33 @@
 const { toString } = require("qrcode");
-const chrome = require("chrome-aws-lambda");
-const puppeteer = require("puppeteer-core");
+
+let chrome = {};
+let puppeteer;
+
+if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+    chrome = require("@sparticuz/chromium-min");
+    puppeteer = require("puppeteer-core");
+} else {
+    puppeteer = require("puppeteer");
+}
+
+const remoteExecutablePath = "https://github.com/Sparticuz/chromium/releases/download/v133.0.0/chromium-v133.0.0-pack.tar";
 
 const getLaunchOptions = async () => {
-    return {
-        args: chrome.args,
-        defaultViewport: chrome.defaultViewport,
-        executablePath: await chrome.executablePath,
-        headless: chrome.headless,
-        ignoreHTTPSErrors: true
-    };
+
+    // Define options for browser
+    let options = {};
+
+    if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+        options = {
+            args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
+            defaultViewport: chrome.defaultViewport,
+            executablePath: await chrome.executablePath(remoteExecutablePath),
+            headless: true,
+            ignoreHTTPSErrors: true,
+        };
+    }
+
+    return options
 };
 
 
@@ -156,8 +174,6 @@ const generatePDF = async (receipt_data) => {
             </body>
         </html>
         `, { waitUntil: 'domcontentloaded', timeout: 20 * 1000 });
-
-        console.log(await page.content())
 
         // Store the PDF in a buffer
         const pdfBuffer = await page.pdf({
