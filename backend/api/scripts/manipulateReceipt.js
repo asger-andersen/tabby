@@ -3,6 +3,7 @@ const { toString } = require("qrcode");
 let chrome = {};
 let puppeteer;
 
+// Check if in development or in production, and import libraries accordingly
 if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
     chrome = require("@sparticuz/chromium-min");
     puppeteer = require("puppeteer-core");

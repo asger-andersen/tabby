@@ -1,14 +1,13 @@
 import React from 'react';
 import { Toaster, toast } from 'sonner'
 
-import TotalSales from './dashboard/TotalSales'
-import LatestActivities from './dashboard/LatestActivities'
-import CreateReceiptButton from './dashboard/CreateReceiptButton'
-import CreateReceipt from './receipt/CreateReceipt'
-import Menu from './Menu'
+import TotalSales from '../dashboard/TotalSales'
+import LatestActivities from '../dashboard/LatestActivities'
+import CreateReceiptButton from '../dashboard/CreateReceiptButton'
+import CreateReceipt from '../receipt/CreateReceipt'
 
 
-const DashboardFront = () => {
+const DashboardFront = ({ setActivePage }) => {
     const [userData, setUserData] = React.useState(null)
     const [showCreateReceipt, setShowCreateReceipt] = React.useState(false)
 
@@ -45,7 +44,7 @@ const DashboardFront = () => {
         <>
             {showCreateReceipt &&
                 <div className='z-10 absolute inset-0 max-h-full max-w-screen'>
-                    <CreateReceipt showCreateReceipt={showCreateReceipt} setShowCreateReceipt={setShowCreateReceipt} />
+                    <CreateReceipt showCreateReceipt={showCreateReceipt} setShowCreateReceipt={setShowCreateReceipt} setActivePage={setActivePage} />
                 </div>
             }
             <div id='dashboard' className='flex flex-col justify-between flex-grow mx-7 mt-20'>
@@ -63,7 +62,6 @@ const DashboardFront = () => {
                     <CreateReceiptButton setShowCreateReceipt={setShowCreateReceipt} />
                 </div>
             </div>
-            <Menu />
         </>
     );
 };

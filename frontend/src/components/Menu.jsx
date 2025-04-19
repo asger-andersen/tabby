@@ -13,40 +13,56 @@ import { FaRegUser } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 
 
-const Menu = () => {
-
-    const [activePage, setActivePage] = React.useState("forside");
+const Menu = ({ activePage, setActivePage }) => {
     const iconSize = 23
 
     return (
         <nav id='menu' className='flex flex-row justify-around text-[0.65rem] font-medium pt-4 pb-8 px-5 mt-6 shadow-t-md bg-white'>
-            <a href="#" className={`flex flex-col basis-64 align-center text-center items-center ${activePage != "forside" ? 'text-gray-500' : "text-black"}`}>
+            <a
+                className={`flex flex-col basis-64 align-center text-center items-center ${activePage != "dashboard" ? 'text-gray-500' : "text-black"}`}
+                onClick={() => {
+                    setActivePage("dashboard")
+                }}>
                 {
-                    activePage != "forside" ?
+                    activePage != "dashboard" ?
                         <HiOutlineHome size={iconSize} />
                         : <HiHome size={iconSize} />
                 }
                 Forside
             </a>
-            <a href="#" className={`flex flex-col basis-64 align-center text-center items-center ${activePage != "aktiviteter" ? 'text-gray-500' : "text-black"}`}>
+            <a
+                className={`flex flex-col basis-64 align-center text-center items-center ${activePage != "activities" ? 'text-gray-500' : "text-black"}`}
+                onClick={() => {
+                    setActivePage("activities")
+                }}>
                 {
-                    activePage != "aktiviteter" ?
+                    activePage != "activities" ?
                         <TbReceipt size={iconSize} />
                         : <TbReceiptFilled size={iconSize} />
                 }
                 Aktiviteter
             </a>
-            <a href="#" className={`flex flex-col basis-64 align-center text-center items-center ${activePage != "firma" ? 'text-gray-500' : "text-black"}`}>
+            <a
+                className={`flex flex-col basis-64 align-center text-center items-center ${activePage != "company" ? 'text-gray-500' : "text-black"}`}
+                onClick={() => {
+                    setActivePage("company")
+                }}
+            >
                 {
-                    activePage != "firma" ?
+                    activePage != "company" ?
                         <TbBriefcase2 size={iconSize} />
                         : <TbBriefcase2Filled size={iconSize} />
                 }
                 Firma
             </a>
-            <a href="#" className={`flex flex-col basis-64 align-center text-center items-center ${activePage != "konto" ? 'text-gray-500' : "text-black"}`}>
+            <a
+                className={`flex flex-col basis-64 align-center text-center items-center ${activePage != "user" ? 'text-gray-500' : "text-black"}`}
+                onClick={() => {
+                    setActivePage("user")
+                }}
+            >
                 {
-                    activePage != "konto" ?
+                    activePage != "user" ?
                         <FaRegUser size={iconSize} />
                         : <FaUser size={iconSize} />
                 }

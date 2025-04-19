@@ -3,7 +3,7 @@ import { FaCheck } from "react-icons/fa6";
 import Skeleton from '../skeleton/Skeleton'
 
 
-const ChooseItems = ({ productInformation, selectedItems, setSelectedItems, setActivePage }) => {
+const ChooseItems = ({ productInformation, selectedItems, setSelectedItems, setActiveStep }) => {
 
     const [selectedCategory, setSelectedCategory] = React.useState(null);
     const [searchString, setSearchString] = React.useState(null);
@@ -160,7 +160,7 @@ const ChooseItems = ({ productInformation, selectedItems, setSelectedItems, setA
             <button
                 className='border-black border px-5 py-3 mt-6 rounded-lg text-sm font-medium w-full bg-black text-white align-center justify-center'
                 onClick={() => {
-                    setActivePage({ page: "choose_payment", page_title: "Vælg betaling" })
+                    setActiveStep({ page: "choose_payment", page_title: "Vælg betaling" })
                 }}
             >
                 <div className='flex flex-row gap-5 items-center justify-center'>

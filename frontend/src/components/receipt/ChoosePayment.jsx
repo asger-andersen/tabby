@@ -2,7 +2,7 @@ import React from 'react';
 import { FaCheck } from "react-icons/fa6";
 
 
-const ChoosePayment = ({ productInformation, setPaymentMethod, setActivePage }) => {
+const ChoosePayment = ({ productInformation, setPaymentMethod, setActiveStep }) => {
 
     return (
         <div className='w-full h-full flex flex-col justify-between'>
@@ -31,7 +31,7 @@ const ChoosePayment = ({ productInformation, setPaymentMethod, setActivePage }) 
             <button
                 className='border-black border px-5 py-3 mb-14 rounded-lg text-sm font-medium w-full bg-black text-white align-center justify-center'
                 onClick={() => {
-                    setActivePage({ page: "choose_email", page_title: "Indtast e-mail" })
+                    setActiveStep({ page: "choose_email", page_title: "Indtast e-mail" })
                 }}
             >
                 <div className='flex flex-row gap-5 items-center justify-center'>

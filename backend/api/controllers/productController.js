@@ -14,6 +14,11 @@ const productInformation = asyncHandler(async (req, res) => {
         // Store user info - Note: User info is passed from authMiddleware
         const userInfo = req.user[0]
 
+        if (!userInfo.company_id) {
+            res.status(403).json({ error: "No company assigned to user!" });
+            return
+        }
+
         // Fetch company information
         const getCompany = async () => {
             const { data, error } = await supabase

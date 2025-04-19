@@ -2,13 +2,14 @@ import React from 'react';
 import { IoClose } from "react-icons/io5";
 import { IoChevronBack } from "react-icons/io5";
 import '../../index.css';
+import { toast } from 'sonner'
 
 import ChooseItems from './ChooseItems'
 import ChoosePayment from './ChoosePayment'
 import ChooseEmail from './ChooseEmail'
 
 
-const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt }) => {
+const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt, setShowCompanyPage, setActivePage }) => {
 
     const [selectedItems, setSelectedItems] = React.useState([]);
     const [paymentMethod, setPaymentMethod] = React.useState(2);
@@ -16,7 +17,7 @@ const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt }) => {
 
     const [productInformation, setProductInformation] = React.useState(null);
 
-    const [activePage, setActivePage] = React.useState({ page: "choose_items", page_title: "Vælg varer" })
+    const [activeStep, setActiveStep] = React.useState({ page: "choose_items", page_title: "Vælg varer" })
 
     // On page load, fetch product information
     React.useEffect(() => {
@@ -38,8 +39,12 @@ const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt }) => {
         })
         const response = await productInformation.json()
 
-        // Store product information in state if status is 200
-        if (productInformation.status === 200) {
+        // Prompt user to create a compeny if status is 403, Store product information in state if status is 200
+        if (productInformation.status === 403) {
+            toast.error("Tilmeld virksomhed for at tilgå produkter")
+            setShowCreateReceipt(false)
+            setActivePage("company")
+        } else if (productInformation.status === 200) {
             setProductInformation(response)
         } else {
             setProductInformation(null)
@@ -58,14 +63,14 @@ const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt }) => {
                         <button
                             className='p-2 text-lg'
                             onClick={() => {
-                                activePage.page === "choose_payment" ? (
-                                    setActivePage({ page: "choose_items", page_title: "Vælg varer" })
+                                activeStep.page === "choose_payment" ? (
+                                    setActiveStep({ page: "choose_items", page_title: "Vælg varer" })
                                 ) : (
-                                    setActivePage({ page: "choose_payment", page_title: "Vælg betaling" })
+                                    setActiveStep({ page: "choose_payment", page_title: "Vælg betaling" })
                                 )
                             }}
                         >
-                            {activePage.page === "choose_payment" || activePage.page === "choose_email" ? <IoChevronBack /> : ""}
+                            {activeStep.page === "choose_payment" || activeStep.page === "choose_email" ? <IoChevronBack /> : ""}
                         </button>
                         <button
                             className='p-2 text-lg'
@@ -77,16 +82,16 @@ const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt }) => {
                         </button>
                     </div>
                     <h2 className='font-black text-2xl text-left'>
-                        {activePage.page_title}
+                        {activeStep.page_title}
                     </h2>
                 </div>
                 <div className='text-left w-full h-full'>
                     {
-                        activePage.page === "choose_items" ? (
-                            <ChooseItems productInformation={productInformation} selectedItems={selectedItems} setSelectedItems={setSelectedItems} setActivePage={setActivePage} />
-                        ) : activePage.page === "choose_payment" ? (
-                            <ChoosePayment productInformation={productInformation} setPaymentMethod={setPaymentMethod} setActivePage={setActivePage} />
-                        ) : activePage.page === "choose_email" ? (
+                        activeStep.page === "choose_items" ? (
+                            <ChooseItems productInformation={productInformation} selectedItems={selectedItems} setSelectedItems={setSelectedItems} setActiveStep={setActiveStep} />
+                        ) : activeStep.page === "choose_payment" ? (
+                            <ChoosePayment productInformation={productInformation} setPaymentMethod={setPaymentMethod} setActiveStep={setActiveStep} />
+                        ) : activeStep.page === "choose_email" ? (
                             <ChooseEmail customerEmail={customerEmail} setCustomerEmail={setCustomerEmail} selectedItems={selectedItems} paymentMethod={paymentMethod} setShowCreateReceipt={setShowCreateReceipt} />
                         ) : null
                     }
