@@ -3,7 +3,7 @@ import { Toaster, toast } from 'sonner'
 import { FiLogIn } from "react-icons/fi";
 
 
-const LoginScreen = ({ setUser }) => {
+const LoginScreen = ({ setUser, setCreateUser }) => {
 
     const [loginInfo, setLoginInfo] = React.useState({ email: "", password: "" });
 
@@ -26,7 +26,6 @@ const LoginScreen = ({ setUser }) => {
 
         // Store user info in state if status is 200
         if (signingIn.status === 200) {
-            console.log(signinResponse)
             setUser(signinResponse.user)
         } else {
             setUser(null)
@@ -41,9 +40,9 @@ const LoginScreen = ({ setUser }) => {
                 <Toaster />
                 <img src="https://gcmekcowvulxpwukxjhz.supabase.co/storage/v1/object/sign/tabby/tabby_logo.svg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJ0YWJieS90YWJieV9sb2dvLnN2ZyIsImlhdCI6MTc0MjE1NTIxMSwiZXhwIjozMzI3ODE1NTIxMX0.c44qWoXaFxlisgePebpRyVAGCqkkq44Ip7d5o7CV47I" alt="tabby_logo" width={"25%"} />
                 <div className='flex flex-col gap-1'>
-                    <h1 className='font-black text-5xl text-left'>
+                    <h2 className='font-black text-5xl text-left'>
                         Tabby
-                    </h1>
+                    </h2>
                     <h3 className='text-sm font-light'>
                         - Kvittér med et klik
                     </h3>
@@ -60,9 +59,9 @@ const LoginScreen = ({ setUser }) => {
                         onSubmit={(e) => {
                             e.preventDefault();
                             toast.promise(signIn, {
-                                loading: 'Signing in...',
-                                success: 'Successfully signed in!',
-                                error: 'Credentials do not match....',
+                                loading: 'Logger ind...',
+                                success: 'Success! Du er nu logget ind!',
+                                error: 'Oplysningerne er inkorrekte...',
                             });
                         }}
                     >
@@ -111,7 +110,14 @@ const LoginScreen = ({ setUser }) => {
                                 </div>
                             </button>
                             <p className='text-xs font-light mt-2'>
-                                Har du ikke en konto? <a href="#">Tilmeld dig</a>
+                                Har du ikke en konto? <a
+                                    className='underline'
+                                    href="#"
+                                    onClick={() => {
+                                        setCreateUser(true)
+                                    }}>
+                                    Tilmeld dig
+                                </a>
                             </p>
                         </div>
                     </form>

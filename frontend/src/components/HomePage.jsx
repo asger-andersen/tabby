@@ -1,12 +1,17 @@
 import React from 'react';
-import LoginScreen from './loginScreen'
-import DashboardFront from './DashboardFront'
+import LoginScreen from './onboarding/loginScreen'
+import DashboardFront from './pages/DashboardFront'
 import LoadingScreen from './loadingScreen'
+import CreateAccount from './onboarding/createAccount'
+import CompanyPage from './pages/CompanyPage'
+import Menu from './Menu'
 
 
 const HomePage = () => {
     const [user, setUser] = React.useState(null);
     const [searchingForUser, setSearchingForUser] = React.useState(true)
+    const [createUser, setCreateUser] = React.useState(false)
+    const [activePage, setActivePage] = React.useState("dashboard");
 
     // On page load, check if user is logged in
     React.useEffect(() => {
@@ -45,9 +50,20 @@ const HomePage = () => {
                 searchingForUser ? (
                     <LoadingScreen searchingForUser={searchingForUser} />
                 ) : user && !searchingForUser ? (
-                    <DashboardFront />
+                    <>
+                        {activePage === "dashboard" ? (
+                            <DashboardFront setActivePage={setActivePage} />
+                        ) : activePage === "company" ? (
+                            <CompanyPage />
+                        ) : (
+                            ""
+                        )}
+                        <Menu activePage={activePage} setActivePage={setActivePage} />
+                    </>
+                ) : !user && !searchingForUser && createUser ? (
+                    <CreateAccount setUser={setUser} setCreateUser={setCreateUser} />
                 ) : (
-                    <LoginScreen setUser={setUser} />
+                    <LoginScreen setUser={setUser} setCreateUser={setCreateUser} />
                 )
             }
         </section>

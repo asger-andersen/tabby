@@ -54,7 +54,11 @@ const LatestActivities = ({ salesData }) => {
                             </>
                         )))
                         : (
-                            <Skeleton width={"100%"} height={"37px"} radius={"0.5rem"} count={3} direction={"col"} gap={3} />
+                            <tr>
+                                <td>
+                                    <Skeleton width={"100%"} height={"37px"} radius={"0.5rem"} count={3} direction={"col"} gap={3} />
+                                </td>
+                            </tr>
                         )
                     }
                 </tbody>

@@ -4,7 +4,7 @@ require('dotenv').config({
 const asyncHandler = require('express-async-handler')
 const supabase = require('../../db-config');
 const bcrypt = require('bcrypt')
-const { generateTokenResponse } = require('../cookies/createToken')
+const { generateTokenResponse } = require('../tokens/createToken')
 
 
 
@@ -39,7 +39,7 @@ const createUser = asyncHandler(async (req, res) => {
     if (error) {
         res.status(400).json({ error: error.message });
     } else {
-        res.status(201).json(data);
+        generateTokenResponse({ userid: data[0].user_id, json: { user: data[0] }, res: res, status: 201 })
     }
 })
 
