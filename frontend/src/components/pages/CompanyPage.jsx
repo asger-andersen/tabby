@@ -1,6 +1,5 @@
 import React from 'react';
 import { Toaster, toast } from 'sonner'
-import BarLoader from "react-spinners/BarLoader";
 
 import InviteCode from '../company/InviteCode'
 import CompanyProducts from '../company/CompanyProducts'
@@ -14,7 +13,6 @@ import AddCategory from '../company/AddCategory'
 const CompanyPage = () => {
     const [companyData, setCompanyData] = React.useState(null)
     const [showCreateCompany, setShowCreateCompany] = React.useState(false)
-    const [loading, setLoading] = React.useState(false)
 
     const [showAddProduct, setShowAddProduct] = React.useState(false)
     const [showAddCategory, setShowAddCategory] = React.useState(false)
@@ -63,26 +61,28 @@ const CompanyPage = () => {
                     <AddCategory showAddCategory={showAddCategory} setShowAddCategory={setShowAddCategory} />
                 </div>
             }
-            <div id='company' className='flex flex-col justify-between flex-grow mx-7 mt-20'>
+            <div id='company' className='flex flex-col justify-between mt-20'>
                 <Toaster />
-                <div id='title'>
+                <div id='title' className='mx-7'>
                     <h1 className='font-black text-3xl text-left truncate'>
                         Firma - {companyData?.company[0]?.company_name}
                     </h1>
                 </div>
-                <div className='flex flex-col justify-between flex-grow'>
-                    {showCreateCompany ? (
-                        <div className='w-full h-full'>
-                            <NoCompany showCreateCompany={showCreateCompany} setShowCreateCompany={setShowCreateCompany} setCompanyData={setCompanyData} />
-                        </div>
-                    ) : (
-                        <div id='hero' className='max-w-[calc(100vw_-_3.5rem)] grid grid-rows-20 gap-4 pt-7'>
-                            <CompanyProducts productData={companyData?.products} categoryData={companyData?.categories} setShowAddProduct={setShowAddProduct} />
-                            <CompanyCategories categoryData={companyData?.categories} setShowAddCategory={setShowAddCategory} />
-                            <InviteCode companyData={companyData?.company[0]} />
-                        </div>
-                    )
-                    }
+                <div className='flex flex-col justify-between flex-grow max-h-[calc(100vh_-_16rem)] mt-7'>
+                    <div className='h-full overflow-y-auto'>
+                        {showCreateCompany ? (
+                            <div className='w-full h-full'>
+                                <NoCompany showCreateCompany={showCreateCompany} setShowCreateCompany={setShowCreateCompany} setCompanyData={setCompanyData} />
+                            </div>
+                        ) : (
+                            <div id='hero' className='max-w-[calc(100vw_-_3.5rem)] grid grid-rows-20 gap-4 mx-7'>
+                                <CompanyProducts productData={companyData?.products} categoryData={companyData?.categories} setShowAddProduct={setShowAddProduct} />
+                                <CompanyCategories categoryData={companyData?.categories} setShowAddCategory={setShowAddCategory} />
+                                <InviteCode companyData={companyData?.company[0]} />
+                            </div>
+                        )
+                        }
+                    </div>
                 </div>
             </div>
         </>
