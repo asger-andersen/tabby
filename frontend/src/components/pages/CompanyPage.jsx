@@ -65,13 +65,15 @@ const CompanyPage = () => {
                 <Toaster />
                 <div id='title' className='mx-7'>
                     <h1 className='font-black text-3xl text-left truncate'>
-                        Firma - {companyData?.company[0]?.company_name}
+                        Firma {companyData && (
+                            `- ${companyData?.company[0]?.company_name}`
+                        )}
                     </h1>
                 </div>
                 <div className='flex flex-col justify-between flex-grow max-h-[calc(100vh_-_16rem)] mt-7'>
                     <div className='h-full overflow-y-auto'>
                         {showCreateCompany ? (
-                            <div className='w-full h-full'>
+                            <div className='w-full h-full px-7'>
                                 <NoCompany showCreateCompany={showCreateCompany} setShowCreateCompany={setShowCreateCompany} setCompanyData={setCompanyData} />
                             </div>
                         ) : (
