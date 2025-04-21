@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const {
-    createProduct
-} = require('../controllers/productController.js')
+    createCategory
+} = require('../controllers/categoryController.js')
 const { protect } = require('../middleware/authMiddleware')
 
-router.post('/create', protect, createProduct)
+router.post('/create', protect, createCategory)
 
 module.exports = router

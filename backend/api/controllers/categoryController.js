@@ -5,29 +5,27 @@ const asyncHandler = require('express-async-handler')
 const supabase = require('../../db-config');
 
 
-// @desc    Create product
-// @route   POST /api/product/create
+// @desc    Create category
+// @route   POST /api/category/create
 // @access  Private
-const createProduct = asyncHandler(async (req, res) => {
+const createCategory = asyncHandler(async (req, res) => {
     // Destructure request data
-    const { product_name, product_price, product_category } = req.body;
+    const { category_name } = req.body;
 
     // Save the user in a variable
     const userInfo = req.user[0]
 
     // Verify that all required values was passed along in the request
-    if (!product_name || !product_price || !product_category) {
+    if (!category_name) {
         res.status(400).json({ error: "All fields are required." });
         return
     }
 
     //Insert product into database
     const { data, error } = await supabase
-        .from('products')
+        .from('category')
         .insert({
-            product_name: product_name,
-            product_price: product_price,
-            category_id: product_category,
+            category_name: category_name,
             company_id: userInfo.company_id
         })
         .select()
@@ -41,24 +39,24 @@ const createProduct = asyncHandler(async (req, res) => {
 
 
 
-// @desc    Update product
-// @route   PUT /api/product/update
+// @desc    Update category
+// @route   PUT /api/category/update
 // @access  Private
-const UpdateProduct = asyncHandler(async (req, res) => {
+const UpdateCategory = asyncHandler(async (req, res) => {
 
 });
 
 
 
-// @desc    Delete product
-// @route   DELETE /api/product/delete
+// @desc    Delete category
+// @route   DELETE /api/category/delete
 // @access  Private
-const deleteProduct = asyncHandler(async (req, res) => {
+const deleteCategory = asyncHandler(async (req, res) => {
 
 });
 
 
 
 module.exports = {
-    createProduct
+    createCategory
 };

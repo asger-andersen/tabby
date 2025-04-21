@@ -9,7 +9,7 @@ import ChoosePayment from './ChoosePayment'
 import ChooseEmail from './ChooseEmail'
 
 
-const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt, setShowCompanyPage, setActivePage }) => {
+const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt, setActivePage }) => {
 
     const [selectedItems, setSelectedItems] = React.useState([]);
     const [paymentMethod, setPaymentMethod] = React.useState(2);
@@ -30,7 +30,7 @@ const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt, setShowCompany
         const token = localStorage.getItem('jwt');
 
         // Make API call
-        const productInformation = await fetch(`${baseUrl}/api/product/getinformation`, {
+        const productInformation = await fetch(`${baseUrl}/api/company/get`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -39,7 +39,7 @@ const CreateReceipt = ({ showCreateReceipt, setShowCreateReceipt, setShowCompany
         })
         const response = await productInformation.json()
 
-        // Prompt user to create a compeny if status is 403, Store product information in state if status is 200
+        // Prompt user to create a company if status is 403, Store product information in state if status is 200
         if (productInformation.status === 403) {
             toast.error("Tilmeld virksomhed for at tilgå produkter")
             setShowCreateReceipt(false)

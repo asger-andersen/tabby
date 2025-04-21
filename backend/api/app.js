@@ -25,7 +25,9 @@ app.options('*', cors({
 
 app.use('/api/receipt', require('./routes/receiptRoute'))
 app.use('/api/user', require('./routes/userRoute'))
+app.use('/api/company', require('./routes/companyRoute'))
 app.use('/api/product', require('./routes/productRoute'))
+app.use('/api/category', require('./routes/categoryRoute'))
 
 //For development:
 app.listen(PORT, () => console.log("Server Listening on PORT:", PORT));

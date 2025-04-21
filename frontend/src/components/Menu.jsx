@@ -33,7 +33,7 @@ const Menu = ({ activePage, setActivePage }) => {
             <a
                 className={`flex flex-col basis-64 align-center text-center items-center ${activePage != "activities" ? 'text-gray-500' : "text-black"}`}
                 onClick={() => {
-                    setActivePage("activities")
+                    //setActivePage("activities")
                 }}>
                 {
                     activePage != "activities" ?
@@ -58,7 +58,7 @@ const Menu = ({ activePage, setActivePage }) => {
             <a
                 className={`flex flex-col basis-64 align-center text-center items-center ${activePage != "user" ? 'text-gray-500' : "text-black"}`}
                 onClick={() => {
-                    setActivePage("user")
+                    //setActivePage("user")
                 }}
             >
                 {
