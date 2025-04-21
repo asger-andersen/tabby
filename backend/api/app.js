@@ -23,11 +23,11 @@ app.options('*', cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 }));
 
-app.use('/api/receipt', require('./routes/receiptRoute'))
-app.use('/api/user', require('./routes/userRoute'))
-app.use('/api/company', require('./routes/companyRoute'))
-app.use('/api/product', require('./routes/productRoute'))
-app.use('/api/category', require('./routes/categoryRoute'))
+app.use('/api/receipt', require('../lib/routes/receiptRoute'))
+app.use('/api/user', require('../lib/routes/userRoute'))
+app.use('/api/company', require('../lib/routes/companyRoute'))
+app.use('/api/product', require('../lib/routes/productRoute'))
+app.use('/api/category', require('../lib/routes/categoryRoute'))
 
 //For development:
 app.listen(PORT, () => console.log("Server Listening on PORT:", PORT));
