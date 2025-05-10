@@ -24,7 +24,7 @@ const HomePage = () => {
         const token = localStorage.getItem('jwt');
 
         // Make API call to backend to verify user session
-        const verifySession = await fetch(`${baseUrl}/api/user/verify-session`, {
+        const verifySession = await fetch(`${baseUrl}/api/user/getdata`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -35,7 +35,7 @@ const HomePage = () => {
 
         // Store user info in state if status is 200
         if (verifySession.status === 200) {
-            setUser(sessionResponse)
+            setUser(sessionResponse[0])
             setSearchingForUser(false)
         } else {
             setUser(null)
@@ -52,7 +52,7 @@ const HomePage = () => {
                 ) : user && !searchingForUser ? (
                     <>
                         {activePage === "dashboard" ? (
-                            <DashboardFront setActivePage={setActivePage} />
+                            <DashboardFront setActivePage={setActivePage} user={user} />
                         ) : activePage === "company" ? (
                             <CompanyPage />
                         ) : (

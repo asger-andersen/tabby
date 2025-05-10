@@ -7,8 +7,8 @@ import CreateReceiptButton from '../dashboard/CreateReceiptButton'
 import CreateReceipt from '../receipt/CreateReceipt'
 
 
-const DashboardFront = ({ setActivePage }) => {
-    const [userData, setUserData] = React.useState(null)
+const DashboardFront = ({ setActivePage, user }) => {
+    const [userData, setUserData] = React.useState(user)
     const [showCreateReceipt, setShowCreateReceipt] = React.useState(false)
 
     // On page load, fetch user data - When receipt is created, fetch updated data
@@ -17,12 +17,12 @@ const DashboardFront = ({ setActivePage }) => {
     }, [showCreateReceipt]);
 
 
-    // Function for verifying user session
+    // Function for fetching user data
     const fetchUserData = async () => {
         const baseUrl = process.env.REACT_APP_BASE_URL
         const token = localStorage.getItem('jwt');
 
-        // Make API call to backend to verify user session
+        // Make API call to backend to fetch data
         const userData = await fetch(`${baseUrl}/api/user/getdata`, {
             method: 'GET',
             headers: {
