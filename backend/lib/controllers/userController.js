@@ -86,27 +86,6 @@ const signIn = asyncHandler(async (req, res) => {
 
 
 
-// @desc    Verify user session
-// @route   POST /api/user/verify-session
-// @access  Private - Note: if no JWT is present, the user simply won't make it to here
-const verifySession = asyncHandler(async (req, res) => {
-
-    // Save the user in a variable
-    const userInfo = req.user[0]
-
-    // Restructure user info so password is not sent to frontend
-    const { password_hash, created_at, ...resturcturedUserInfo } = userInfo;
-
-    if (!resturcturedUserInfo) {
-        res.status(400).json({ "Error message": "Falied fetching user" });
-    } else {
-        // Return user information
-        res.status(200).json(resturcturedUserInfo)
-    }
-})
-
-
-
 // @desc    Get all data associated with user
 // @route   GET /api/user/getdata
 // @access  Private
@@ -188,6 +167,5 @@ const comparePassword = async (insertedPassword, hash) => {
 module.exports = {
     createUser,
     signIn,
-    verifySession,
     getUserData
 }
