@@ -137,3 +137,6 @@ dist
 
 # puppeteer folder
 puppeteer/
+
+# test receipt
+receipt/
