@@ -7,8 +7,8 @@ import CreateReceiptButton from '../dashboard/CreateReceiptButton'
 import CreateReceipt from '../receipt/CreateReceipt'
 
 
-const DashboardFront = ({ setActivePage, user }) => {
-    const [userData, setUserData] = React.useState(user)
+const DashboardFront = ({ setActivePage }) => {
+    const [userData, setUserData] = React.useState(null)
     const [showCreateReceipt, setShowCreateReceipt] = React.useState(false)
 
     // On page load, fetch user data - When receipt is created, fetch updated data
